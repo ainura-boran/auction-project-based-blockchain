@@ -4,12 +4,24 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AuctionToken is ERC20, Ownable {
-    constructor(address initialOwner)
-    ERC20("Auction Reward Token", "ART")
-    Ownable(initialOwner)
+    uint256 public constant FEE_PERCENT = 1; 
+    uint256 public constant FEE_DIVIDER = 1000;
+
+    constructor(address initialOwner) 
+        ERC20("Auction Token", "AUC")
+        Ownable(initialOwner) 
     {}
 
-    function mint(address to, uint256 amount) external onlyOwner {
-        _mint(to, amount);
+    function buyTokens() external payable {
+        require(msg.value > 0, "Send ETH to buy tokens");
+
+        uint256 fee = (msg.value * FEE_PERCENT) / FEE_DIVIDER;
+        uint256 tokensToMint = (msg.value - fee) * 1000;
+
+        _mint(msg.sender, tokensToMint);
+    }
+
+    function withdrawFee() external onlyOwner {
+        payable(owner()).transfer(address(this).balance);
     }
 }
