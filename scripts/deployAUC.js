@@ -1,4 +1,5 @@
-const hre = require("hardhat");
+// SPDX-License-Identifier: MIT
+import hre from "hardhat";
 
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
