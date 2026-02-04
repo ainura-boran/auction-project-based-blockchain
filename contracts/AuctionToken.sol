@@ -11,7 +11,7 @@ contract AuctionToken is ERC20, Ownable {
 
     constructor(address initialOwner) 
         ERC20("Auction Token", "AUC")
-        Ownable(initialOwner) q
+        Ownable(initialOwner) 
     {}
 
     function buyTokens() external payable {
